@@ -8,15 +8,15 @@ describe 'indexing' do
   end
 
   it 'should correctly remove by model instance' do
+    Sunspot.remove_all!
     post = Post.new(:title => 'test post')
     Sunspot.index!(post)
     Sunspot.remove!(post)
-    # Add a small sleep to ensure commit completes on Ruby 2.7
-    sleep 0.1 if RUBY_VERSION.start_with?('2.7')
     expect(Sunspot.search(Post) { with(:title, 'test post') }.results).to be_empty
   end
 
   it 'should correctly delete by ID' do
+    Sunspot.remove_all!
     post = Post.new(:title => 'test post')
     Sunspot.index!(post)
     Sunspot.remove_by_id!(Post, post.id)
