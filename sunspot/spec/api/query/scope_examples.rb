@@ -77,6 +77,13 @@ shared_examples_for "scoped query" do
     expect(connection).to have_last_search_including(:fq, 'average_rating_ft:[2\.0 TO 4\.0]')
   end
 
+  it 'scopes by between match with excluded end float range' do
+    search do
+      with(:average_rating).between 2.0...3.0
+    end
+    expect(connection).to have_last_search_including(:fq, 'average_rating_ft:[2\.0 TO 3\.0}')
+  end
+
   it 'scopes by any match with integer' do
     search do
       with(:category_ids).any_of [2, 7, 12]

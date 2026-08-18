@@ -294,7 +294,11 @@ module Sunspot
         end
 
         def to_solr_conditional
-          "[#{solr_value(@value.first)} TO #{solr_value(@value.last)}]"
+          if @value.exclude_end?
+            "[#{solr_value(@value.first)} TO #{solr_value(@value.last)}}"
+          else
+            "[#{solr_value(@value.first)} TO #{solr_value(@value.last)}]"
+          end
         end
       end
 
