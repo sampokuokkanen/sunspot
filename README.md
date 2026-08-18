@@ -498,6 +498,21 @@ search.facet(:author_id).rows.each do |facet|
 end
 ```
 
+Facet values can be restricted to those matching a regular expression. Requires Solr 7.7 or
+higher.
+
+```ruby
+# Counts for post titles mentioning 'Lord' before 'Rings', in any case
+search = Post.search do
+  facet :title, matches: '(?i).*Lord.*Rings.*'
+end
+```
+
+The pattern is a Java regular expression matched against the whole indexed value, so `Rings`
+matches the value `Rings` and not the value `Lord of the Rings`. Wrap the pattern in `.*` to
+match anywhere within a value. Only the facet the option is given to is restricted; other
+facets in the same search return all of their values.
+
 #### Query Facets
 
 ```ruby
